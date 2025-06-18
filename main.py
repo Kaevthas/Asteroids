@@ -26,6 +26,9 @@ def main():
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     dt = 0
 
+    score = 0
+    font = pygame.font.Font(None, 36)
+
     # Game loop
     while True:
         for event in pygame.event.get():
@@ -43,8 +46,12 @@ def main():
                 if asteroid.collides_with(shot):
                     shot.kill()
                     asteroid.split()
+                    score += int(100 * (asteroid.radius / ASTEROID_MIN_RADIUS))
                     
         screen.fill("black")
+
+        score_surface = font.render(f"Score: {score}", True, pygame.Color("white"))
+        screen.blit(score_surface, (10, 10))
         
         for obj in drawable:
             obj.draw(screen)
