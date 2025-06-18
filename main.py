@@ -30,6 +30,11 @@ def main():
     font = pygame.font.Font(None, 36)
 
     lives = 3
+    invincible = False
+    invincibility_time = 2
+    invincibility_timer = 0
+    blink = False
+    blink_timer = 0
 
     # Game loop
     while True:
@@ -40,14 +45,20 @@ def main():
         updatable.update(dt)
 
         for asteroid in asteroids:
-            if asteroid.collides_with(player):
+            if not invincible and asteroid.collides_with(player):
                 asteroid.kill()
                 lives -= 1
-                if lives > -0:
+
+                if lives > 0:
                     player.respawn()
+                    invincible = True
+                    invincibility_timer = invincibility_time
+                    blink_timer = 0
+                    blink = True
                 else:
                     print("Game Over! Final Score:", score)
                     sys.exit()
+                break
 
             for shot in shots:
                 if asteroid.collides_with(shot):
@@ -64,12 +75,28 @@ def main():
         screen.blit(lives_surface, (10, 50))
         
         for obj in drawable:
-            obj.draw(screen)
+            if isinstance(obj, Player):
+                if not (invincible and not blink):
+                    obj.draw(screen)
+            else:
+                obj.draw(screen)
 
         pygame.display.flip()
 
         # Limit the framerate to 60 FPS
         dt = clock.tick(60) / 1000
+
+        if invincible:
+            invincibility_timer -= dt
+            blink_timer += dt
+
+            if blink_timer >= 0.1:
+                blink = not blink
+                blink_timer = 0
+
+            if invincibility_timer <= 0:
+                invincible = False
+                blink = False
 
 
 if __name__ == "__main__":
