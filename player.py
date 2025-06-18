@@ -11,7 +11,7 @@ class Player(CircleShape):
         self.time_since_last_shot = 0
 
     def draw(self, screen):
-        pygame.draw.polygon(screen, "blue", self.triangle(), 2)
+        pygame.draw.polygon(screen, "cyan", self.triangle(), 2)
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
