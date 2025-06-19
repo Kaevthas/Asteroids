@@ -10,16 +10,17 @@ class Player(CircleShape):
         self.shoot_cooldown = 0.15
         self.time_since_last_shot = 0
 
-    def draw(self, screen):
-        pygame.draw.polygon(screen, "cyan", self.triangle(), 2)
+        original_image = pygame.image.load("assets/spaceship.png").convert_alpha()
+        scale = (PLAYER_RADIUS * 2, PLAYER_RADIUS * 2)
+        original_image = pygame.transform.smoothscale(original_image, scale)
+        original_image = pygame.transform.rotate(original_image, 180)
+        self.original_image = original_image
+        self.image = self.original_image
 
-    def triangle(self):
-        forward = pygame.Vector2(0, 1).rotate(self.rotation)
-        right = pygame.Vector2(0, 1).rotate(self.rotation + 90) * self.radius / 1.5
-        a = self.position + forward * self.radius
-        b = self.position - forward * self.radius - right
-        c = self.position - forward * self.radius + right
-        return [a, b, c]
+    def draw(self, screen):
+        rotated_image = pygame.transform.rotate(self.original_image, -self.rotation)
+        rect = rotated_image.get_rect(center=self.position)
+        screen.blit(rotated_image, rect.topleft)
               
     def update(self, dt):
         self.time_since_last_shot += dt

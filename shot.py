@@ -18,12 +18,12 @@ class Shot(CircleShape):
             alpha = 30 * i
             pygame.draw.circle(
                 surface,
-                (255, 0, 255, alpha),
+                (0, 255, 255, alpha),
                 (center, center),
                 glow_radius
             )
 
-        pygame.draw.circle(surface, (255, 0, 255), (center, center), radius)
+        pygame.draw.circle(surface, (0, 255, 255), (center, center), radius)
         screen.blit(surface, self.position - pygame.Vector2(center))
 
     def update(self, dt):
