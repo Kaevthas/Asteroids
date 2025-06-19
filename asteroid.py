@@ -23,6 +23,7 @@ class Asteroid(CircleShape):
         
     def draw(self, screen):
         transformed = [self.position + point for point in self.points]
+        pygame.draw.polygon(screen, (100, 100, 100), transformed)
         pygame.draw.polygon(screen, "white", transformed, 2)
 
     def update(self, dt):
