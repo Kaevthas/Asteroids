@@ -5,6 +5,7 @@ from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
+from explosion import Explosion
 
 def main():
     pygame.init()
@@ -15,12 +16,13 @@ def main():
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
     shots = pygame.sprite.Group()
+    explosions = pygame.sprite.Group()
 
     Asteroid.containers = (asteroids, updatable, drawable)
     Shot.containers = (shots, updatable, drawable)
     AsteroidField.containers = (updatable)
     asteroid_field = AsteroidField()
-
+    Explosion.containers = (explosions, updatable, drawable)
     Player.containers = (updatable, drawable)
 
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
@@ -62,8 +64,9 @@ def main():
 
             for shot in shots:
                 if asteroid.collides_with(shot):
-                    shot.kill()
+                    Explosion(shot.position)
                     asteroid.split()
+                    shot.kill()
                     score += int(100 * (asteroid.radius / ASTEROID_MIN_RADIUS))
                     
         screen.fill("black")
