@@ -6,7 +6,7 @@ from shot import Shot
 class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
-        self.rotation = 0
+        self.rotation = 180
         self.shoot_cooldown = 0.15
         self.time_since_last_shot = 0
 
@@ -52,4 +52,4 @@ class Player(CircleShape):
     def respawn(self):
         self.position = pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
         self.velocity = pygame.Vector2(0, 0)
-        self.rotation = 0
+        self.rotation = 180
