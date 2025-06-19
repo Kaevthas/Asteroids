@@ -7,7 +7,24 @@ class Shot(CircleShape):
         super().__init__(x, y, SHOT_RADIUS)
 
     def draw(self, screen):
-        pygame.draw.circle(screen, "magenta", self.position, self.radius, 2)
+        radius = int(self.radius)
+        surface_size = radius * 4
+        surface = pygame.Surface((surface_size, surface_size), pygame.SRCALPHA)
+
+        center = surface_size // 2
+
+        for i in range(3, 0, -1):
+            glow_radius = radius + i * 2
+            alpha = 30 * i
+            pygame.draw.circle(
+                surface,
+                (255, 0, 255, alpha),
+                (center, center),
+                glow_radius
+            )
+
+        pygame.draw.circle(surface, (255, 0, 255), (center, center), radius)
+        screen.blit(surface, self.position - pygame.Vector2(center))
 
     def update(self, dt):
         self.position += self.velocity * dt

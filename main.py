@@ -25,6 +25,9 @@ def main():
     Explosion.containers = (explosions, updatable, drawable)
     Player.containers = (updatable, drawable)
 
+    background = pygame.image.load("assets/background.png").convert()
+    background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     dt = 0
 
@@ -69,7 +72,7 @@ def main():
                     shot.kill()
                     score += int(100 * (asteroid.radius / ASTEROID_MIN_RADIUS))
                     
-        screen.fill("black")
+        screen.blit(background, (0, 0))
 
         score_surface = font.render(f"Score: {score}", True, pygame.Color("white"))
         screen.blit(score_surface, (10, 10))
